@@ -24,9 +24,11 @@ class Blockchain:
         subprocess.run(["sudo", "cp", "-r", f"{src_dir}/*", dest_path])
         return dir_name
 
+    @staticmethod
     def install(self):
         raise NotImplementedError
 
+    @staticmethod
     def print_help(self):
         raise NotImplementedError
 
@@ -34,12 +36,12 @@ class Blockchain:
 class Solana(Blockchain):
     def __init__(self):
         super().__init__("solana")
-        if os_type == "Linux":
-            self.tarball_url = "https://github.com/solana-labs/solana/releases/download/v1.16.5/solana-release-x86_64" \
+        # if os_type == "Linux":
+        self.tarball_url = "https://github.com/solana-labs/solana/releases/download/v1.16.5/solana-release-x86_64" \
                                "-unknown-linux-gnu.tar.bz2"
-        elif os_type == "Dariwn":
-            self.tarball_url = "https://github.com/solana-labs/solana/releases/download/v1.16.4/solana-release-aarch64" \
-                               "-apple-darwin.tar.bz2 "
+        # elif os_type == "Dariwn":
+         # self.tarball_url = "https://github.com/solana-labs/solana/releases/download/v1.16.4/solana-release-aarch64" \
+                              # "-apple-darwin.tar.bz2"
 
     def install(self):
         tarball = self.download_tarball(self.tarball_url)
@@ -47,6 +49,7 @@ class Solana(Blockchain):
         print(f"{self.name}")
         self.copy_files_to_path(f"{self.name}-*", "/usr/local/")
 
+    @staticmethod
     def print_help(self):
         subprocess.run(["solana", "--help"])
 
