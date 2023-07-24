@@ -36,4 +36,4 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: jfoa-build-reports-${{ runner.os }}
-        path: /home/runner/work/ckb-auth-integration-test/ckb-auth-integration-test/report
+        path: /home/runner/work/ckb-auth-integration-test/ckb-auth-integration-test/testcases/report
