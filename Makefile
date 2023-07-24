@@ -3,7 +3,7 @@ prepare:
 	sh prepare.sh
 
 test:
-	pytest -k testcases -s
+	python -m pytest
 
 clean:
 	rm -rf ckb-auth
