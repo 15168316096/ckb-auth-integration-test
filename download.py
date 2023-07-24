@@ -1,6 +1,8 @@
 import os
+import platform
 import subprocess
 
+os_type = platform.system()
 
 class Blockchain:
     def __init__(self, name):
@@ -32,9 +34,12 @@ class Blockchain:
 class Solana(Blockchain):
     def __init__(self):
         super().__init__("solana")
-        #todo platform isnot choose
-        self.tarball_url = "https://github.com/solana-labs/solana/releases/download/v1.16.4/solana-release-aarch64" \
-                           "-apple-darwin.tar.bz2 "
+        if os_type == "Linux":
+            self.tarball_url = "https://github.com/solana-labs/solana/releases/download/v1.16.5/solana-release-x86_64" \
+                               "-unknown-linux-gnu.tar.bz2"
+        elif os_type == "Dariwn":
+            self.tarball_url = "https://github.com/solana-labs/solana/releases/download/v1.16.4/solana-release-aarch64" \
+                               "-apple-darwin.tar.bz2 "
 
     def install(self):
         tarball = self.download_tarball(self.tarball_url)
@@ -49,7 +54,8 @@ class Solana(Blockchain):
 class Monero(Blockchain):
     def __init__(self):
         super().__init__("monero")
-        self.tarball_url = "https://downloads.getmonero.org/cli/monero-linux-x64-v0.18.2.2.tar.bz2"
+        if os_type == "Linux":
+            self.tarball_url = "https://downloads.getmonero.org/cli/monero-linux-x64-v0.18.2.2.tar.bz2"
 
     def install(self):
         tarball = self.download_tarball(self.tarball_url)
@@ -63,7 +69,8 @@ class Monero(Blockchain):
 class Litecoin(Blockchain):
     def __init__(self):
         super().__init__("litecoin")
-        self.tarball_url = "https://download.litecoin.org/litecoin-0.21.2.2/linux/litecoin-0.21.2.2-x86_64-linux-gnu" \
+        if os_type == "Linux":
+            self.tarball_url = "https://download.litecoin.org/litecoin-0.21.2.2/linux/litecoin-0.21.2.2-x86_64-linux-gnu" \
                            ".tar.gz "
 
     def install(self):
