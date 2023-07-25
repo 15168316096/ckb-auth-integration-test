@@ -12,7 +12,7 @@ class Blockchain:
     @staticmethod
     def download_tarball(tarball_url):
         tarball = tarball_url.split("/")[-1]
-        subprocess.run(["curl", "-o", tarball, tarball_url])
+        subprocess.run(["wget", "-O", tarball, tarball_url])
         return tarball
 
     @staticmethod
