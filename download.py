@@ -68,8 +68,9 @@ class Solana(Blockchain):
         return "https://github.com/solana-labs/solana/releases/download/v1.16.4/solana-release-aarch64" \
                "-apple-darwin.tar.bz2"
 
-    # def print_help(self):
-    #     subprocess.run(["solana", "--help"])
+    def print_help(self):
+        print("use solana by abspath")
+        # subprocess.run(["solana", "--help"])
 
 
 class Monero(Blockchain):

@@ -1,5 +1,3 @@
-import json
-
 from framework.utils import get_project_root, run_command
 
 ckb_auth_cli_path = f"cd {get_project_root()}/ckb-auth/tools/ckb-auth-cli/target/debug/ && ./ckb-auth-cli "
