@@ -58,11 +58,11 @@ def solana_signMessage(keypair, blockhash, pubKey, feepayer=None):
 
     """
     if feepayer is not None:
-        cmd = f"{solana_path} && ./solana transfer --from {keypair} --blockhash {blockhash}{pubKey}" \
-              f" 0 --output json --verbose --dump-transaction-message --sign-only "
-    else:
         cmd = f"{solana_path} && ./solana transfer --from {keypair} --fee-payer {keypair} " \
               f"--blockhash {blockhash}{pubKey}" \
+              f" 0 --output json --verbose --dump-transaction-message --sign-only "
+    else:
+        cmd = f"{solana_path} && ./solana transfer --from {keypair} --blockhash {blockhash}{pubKey}" \
               f" 0 --output json --verbose --dump-transaction-message --sign-only "
     cmd = cmd.replace("\n", " ")
 
