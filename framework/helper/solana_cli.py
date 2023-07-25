@@ -15,8 +15,6 @@ def solana_keygen():
     wolf north mesh crazy man soap voice once rapid athlete iron between
     ====================================================================
     """
-    cmd = f"{solana_path} && ./solana-keygen new -o /home/runner/.config/solana/id.json"
-    subprocess.run(cmd, shell=True, capture_output=True, text=True)
     cmd = f"{solana_path} && ./solana-keygen new --force --no-bip39-passphrase  -o /tmp/keypair.json"
     result = subprocess.run(cmd, shell=True, capture_output=True, text=True)
     # 提取pubkey的值
