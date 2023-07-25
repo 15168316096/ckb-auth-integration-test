@@ -15,8 +15,6 @@ def solana_keygen():
     wolf north mesh crazy man soap voice once rapid athlete iron between
     ====================================================================
     """
-    cmd = f"{solana_path} && ./solana-keygen new -o /home/runner/.config/solana/id.json"
-    subprocess.run(cmd, shell=True, capture_output=True, text=True)
     cmd = f"{solana_path} && ./solana-keygen new --force --no-bip39-passphrase  -o /tmp/keypair.json"
     result = subprocess.run(cmd, shell=True, capture_output=True, text=True)
     # 提取pubkey的值
@@ -30,7 +28,7 @@ def solana_keygen():
     return pubkey
 
 
-def solana_signMessage(keypair, blockhash, pubKey, feepayer=None):
+def solana_signMessage(keypair, blockhash, pubKey, payer=None):
     """
     1、单个signer场景(--fee-payer {keypair})
     xueyanli@xueyanlideMacBook-Pro bin % solana transfer --from /Users/xueyanli/.config/solana/id.json --blockhash 6ukfHkjdBDsbF44dYVU8cTcQG8uzSdja884uHs1eVrdC 69RyGvuAaCnuKjDgWycQdzDNjz9u2z4JudogjzdG493Z 0 --output json --verbose --dump-transaction-message --sign-only
@@ -57,12 +55,14 @@ def solana_signMessage(keypair, blockhash, pubKey, feepayer=None):
     }
 
     """
-    if feepayer is not None:
-        cmd = f"{solana_path} && ./solana transfer --from {keypair} --blockhash {blockhash}{pubKey}" \
-              f" 0 --output json --verbose --dump-transaction-message --sign-only "
-    else:
+    if payer is not None:
         cmd = f"{solana_path} && ./solana transfer --from {keypair} --fee-payer {keypair} " \
               f"--blockhash {blockhash}{pubKey}" \
+              f" 0 --output json --verbose --dump-transaction-message --sign-only "
+    else:
+        cmd = f"{solana_path} && ./solana-keygen new --force --no-bip39-passphrase"
+        subprocess.run(cmd, shell=True, capture_output=True, text=True)
+        cmd = f"{solana_path} && ./solana transfer --from {keypair} --blockhash {blockhash}{pubKey}" \
               f" 0 --output json --verbose --dump-transaction-message --sign-only "
     cmd = cmd.replace("\n", " ")
 
