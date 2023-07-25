@@ -1,6 +1,6 @@
 from framework.utils import *
 
-solana_path = f"cd {get_project_root()}/solana-release/bin"
+solana_path = f"cd {get_project_root()}/testcases/solana-release/bin"
 
 
 def solana_keygen():
