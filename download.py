@@ -39,7 +39,10 @@ class Blockchain:
         tarball = self.download_tarball(tarball_url)
         self.extract_tarball(tarball)
         print(f"{self.name}")
-        self.copy_files_to_path(f"{self.name}-*", "/usr/local/")
+        if f"{self.name}".find("monero") != -1:
+            self.copy_files_to_path(f"{self.name}-*/*", "/usr/local/bin/")
+        else:
+            self.copy_files_to_path(f"{self.name}-*/*", "/usr/local/")
 
     def print_help(self):
         raise NotImplementedError
@@ -64,7 +67,7 @@ class Solana(Blockchain):
                "-apple-darwin.tar.bz2"
 
     def print_help(self):
-        subprocess.run(["./solana", "--help"])
+        subprocess.run(["solana", "--help"])
 
 
 class Monero(Blockchain):
@@ -75,7 +78,7 @@ class Monero(Blockchain):
         return "https://downloads.getmonero.org/cli/monero-linux-x64-v0.18.2.2.tar.bz2"
 
     def print_help(self):
-        subprocess.run(["./monero-wallet-cli", "--help"])
+        subprocess.run(["monero-wallet-cli", "--help"])
 
 
 class Litecoin(Blockchain):
@@ -86,4 +89,4 @@ class Litecoin(Blockchain):
         return "https://download.litecoin.org/litecoin-0.21.2.2/linux/litecoin-0.21.2.2-x86_64-linux-gnu.tar.gz"
 
     def print_help(self):
-        subprocess.run(["./itecoin-cli", "--help"])
+        subprocess.run(["litecoin-cli", "--help"])

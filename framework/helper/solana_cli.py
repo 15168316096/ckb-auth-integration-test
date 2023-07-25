@@ -56,7 +56,8 @@ def solana_signMessage(keypair, blockhash, pubKey):
     }
 
     """
-    cmd = f"{solana_path} && ./solana transfer --from {keypair} --blockhash {blockhash}{pubKey} 0 --output json --verbose --dump-transaction-message --sign-only"
+    cmd = f"{solana_path} && ./solana transfer --from {keypair} --fee-payer {keypair} --blockhash {blockhash}{pubKey}" \
+          f" 0 --output json --verbose --dump-transaction-message --sign-only "
     cmd = cmd.replace("\n", " ")
 
     # 运行cmd命令并获取输出结果
