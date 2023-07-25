@@ -18,7 +18,7 @@ class Blockchain:
 
     @staticmethod
     def extract_tarball(tarball):
-        subprocess.run(["tar", "xvzf", tarball])
+        subprocess.run(["tar", "xvf", tarball])
 
     @staticmethod
     def copy_files_to_path(src_dir, dest_path):
