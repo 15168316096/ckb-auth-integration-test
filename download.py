@@ -12,7 +12,7 @@ class Blockchain:
     @staticmethod
     def download_tarball(tarball_url):
         tarball = tarball_url.split("/")[-1]
-        subprocess.run(["wget", "-O", tarball, tarball_url])
+        subprocess.run(["curl", "-o", tarball, tarball_url])
         return tarball
 
     @staticmethod
@@ -26,7 +26,8 @@ class Blockchain:
             subprocess.run(["sudo", "cp", "-r", f"{src_dir}/*", dest_path])
         elif os_type == "Darwin":
             password = "Xue123"
-            subprocess.run([f"echo {password} | ", "sudo", "-S", "cp", "-r", f"{src_dir}/*", dest_path])
+            cmd = f'echo {password} | sudo -S cp -r {src_dir}/* {dest_path}'
+            subprocess.run(cmd, shell=True)
         return dir_name
 
     def install(self):
@@ -39,11 +40,11 @@ class Blockchain:
 
         tarball = self.download_tarball(tarball_url)
         self.extract_tarball(tarball)
-        print(f"{self.name}")
-        if f"{self.name}".find("monero") != -1:
-            self.copy_files_to_path(f"{self.name}-*", "/usr/local/bin/")
-        else:
-            self.copy_files_to_path(f"{self.name}-*", "/usr/local/")
+        # print(f"{self.name}")
+        # if f"{self.name}".find("monero") != -1:
+        #     self.copy_files_to_path(f"{self.name}-*", "/usr/local/bin/")
+        # else:
+        #     self.copy_files_to_path(f"{self.name}-*", "/usr/local/")
 
     def print_help(self):
         raise NotImplementedError
