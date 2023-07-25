@@ -2,13 +2,12 @@ import os
 import platform
 import subprocess
 
+os_type = platform.system()
+
+
 class Blockchain:
     def __init__(self, name):
         self.name = name
-
-    @staticmethod
-    def get_os_type():
-        return platform.system()
 
     @staticmethod
     def download_tarball(tarball_url):
@@ -23,12 +22,14 @@ class Blockchain:
     @staticmethod
     def copy_files_to_path(src_dir, dest_path):
         dir_name = os.path.basename(src_dir)
-        subprocess.run(["sudo", "cp", "-r", f"{src_dir}/*", dest_path])
+        if os_type == "Linux":
+            subprocess.run(["sudo", "cp", "-r", f"{src_dir}/*", dest_path])
+        elif os_type == "Darwin":
+            password = "Xue123"
+            subprocess.run([f"echo {password} | ", "sudo", "-S", "cp", "-r", f"{src_dir}/*", dest_path])
         return dir_name
 
     def install(self):
-        os_type = self.get_os_type()
-
         if os_type == "Linux":
             tarball_url = self.get_linux_tarball_url()
         elif os_type == "Darwin":
@@ -40,9 +41,9 @@ class Blockchain:
         self.extract_tarball(tarball)
         print(f"{self.name}")
         if f"{self.name}".find("monero") != -1:
-            self.copy_files_to_path(f"{self.name}-*/*", "/usr/local/bin/")
+            self.copy_files_to_path(f"{self.name}-*", "/usr/local/bin/")
         else:
-            self.copy_files_to_path(f"{self.name}-*/*", "/usr/local/")
+            self.copy_files_to_path(f"{self.name}-*", "/usr/local/")
 
     def print_help(self):
         raise NotImplementedError
