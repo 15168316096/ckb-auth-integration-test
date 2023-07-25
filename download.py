@@ -68,8 +68,8 @@ class Solana(Blockchain):
         return "https://github.com/solana-labs/solana/releases/download/v1.16.4/solana-release-aarch64" \
                "-apple-darwin.tar.bz2"
 
-    def print_help(self):
-        subprocess.run(["solana", "--help"])
+    # def print_help(self):
+    #     subprocess.run(["solana", "--help"])
 
 
 class Monero(Blockchain):
@@ -79,8 +79,8 @@ class Monero(Blockchain):
     def get_linux_tarball_url(self):
         return "https://downloads.getmonero.org/cli/monero-linux-x64-v0.18.2.2.tar.bz2"
 
-    def print_help(self):
-        subprocess.run(["monero-wallet-cli", "--help"])
+    # def print_help(self):
+    #     subprocess.run(["monero-wallet-cli", "--help"])
 
 
 class Litecoin(Blockchain):
@@ -90,5 +90,5 @@ class Litecoin(Blockchain):
     def get_linux_tarball_url(self):
         return "https://download.litecoin.org/litecoin-0.21.2.2/linux/litecoin-0.21.2.2-x86_64-linux-gnu.tar.gz"
 
-    def print_help(self):
-        subprocess.run(["litecoin-cli", "--help"])
+    # def print_help(self):
+    #     subprocess.run(["litecoin-cli", "--help"])
