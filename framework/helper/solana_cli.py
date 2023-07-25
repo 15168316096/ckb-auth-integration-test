@@ -29,7 +29,7 @@ def solana_keygen():
     return pubkey
 
 
-def solana_signMessage(keypair, blockhash, pubKey):
+def solana_signMessage(keypair, blockhash, pubKey, feepayer=None):
     """
     1、单个signer场景(--fee-payer {keypair})
     xueyanli@xueyanlideMacBook-Pro bin % solana transfer --from /Users/xueyanli/.config/solana/id.json --blockhash 6ukfHkjdBDsbF44dYVU8cTcQG8uzSdja884uHs1eVrdC 69RyGvuAaCnuKjDgWycQdzDNjz9u2z4JudogjzdG493Z 0 --output json --verbose --dump-transaction-message --sign-only
@@ -56,8 +56,13 @@ def solana_signMessage(keypair, blockhash, pubKey):
     }
 
     """
-    cmd = f"{solana_path} && ./solana transfer --from {keypair} --blockhash {blockhash}{pubKey}" \
-          f" 0 --output json --verbose --dump-transaction-message --sign-only "
+    if feepayer is not None:
+        cmd = f"{solana_path} && ./solana transfer --from {keypair} --blockhash {blockhash}{pubKey}" \
+              f" 0 --output json --verbose --dump-transaction-message --sign-only "
+    else:
+        cmd = f"{solana_path} && ./solana transfer --from {keypair} --fee-payer {keypair} " \
+              f"--blockhash {blockhash}{pubKey}" \
+              f" 0 --output json --verbose --dump-transaction-message --sign-only "
     cmd = cmd.replace("\n", " ")
 
     # 运行cmd命令并获取输出结果
