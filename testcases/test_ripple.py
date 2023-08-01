@@ -1,9 +1,8 @@
 from framework.helper.ckb_auth_cli import *
 from framework.helper.ripple_cli import *
-from framework.helper.solana_cli import *
 
 
-class TestSolana:
+class TestRipple:
 
     @classmethod
     def setup_class(cls):
