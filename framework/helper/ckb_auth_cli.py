@@ -37,11 +37,13 @@ def verifyMsgForSolana(pubKey, signature, message):
 
 
 def get_message_hash_ripple(
-        ckb_sign_message="CKB_SIGN_MESSAGE=0011223344556677889900112233445566778899001122334455667788990011"):
+        ckb_sign_message="0011223344556677889900112233445566778899001122334455667788990011"):
     try:
-        cmd = f'echo {ckb_sign_message} | {ckb_auth_cli_path} ripple parse --hex_to_address'
+        cmd = f"{ckb_auth_cli_path} ripple parse --hex_to_address {ckb_sign_message}"
+        print(f"debug555:{cmd}")
         result = subprocess.check_output(cmd, shell=True, text=True)
         ckb_message_hash = result.strip()
+        print(f"[debug]ckb_message_hash:{ckb_message_hash}")
         return ckb_message_hash
     except subprocess.CalledProcessError as e:
         print(f"Error executing command: {e}")
@@ -49,8 +51,7 @@ def get_message_hash_ripple(
 
 
 def verify_ripple_signature(ripple_address_id, tx_blob,
-                            ckb_sign_message="CKB_SIGN_MESSAGE"
-                                             "=0011223344556677889900112233445566778899001122334455667788990011"):
+                            ckb_sign_message="0011223344556677889900112233445566778899001122334455667788990011"):
     try:
         cmd = f'{ckb_auth_cli_path} ripple verify -p {ripple_address_id} -s {tx_blob} -m {ckb_sign_message}'
         result = subprocess.check_output(cmd, shell=True, text=True)

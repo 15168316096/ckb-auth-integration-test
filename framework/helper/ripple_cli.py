@@ -1,6 +1,6 @@
 import json
 import subprocess
-
+import time
 from framework.utils import get_project_root, check_container_status, get_container_name_from_output, \
     stop_and_remove_container
 
@@ -8,12 +8,16 @@ ckb_auth_path = f"{get_project_root()}/ckb-auth"
 
 
 def start_service():
-    start_ripple_cmd = f"source {ckb_auth_path}/tools/rippled/start_rippled.sh"
-    subprocess.run(start_ripple_cmd, shell=True, capture_output=True, text=True)
-    if check_container_status("ripple"):
-        print(f"start ripple service succ!!")
+    start_ripple_cmd = f"bash {ckb_auth_path}/tools/rippled/start_rippled.sh"
+    print(f"cmd: {start_ripple_cmd}")
+    script_output = subprocess.run(start_ripple_cmd, shell=True, text=True, capture_output=True)
+    if script_output.returncode == 0:
+        docker_rippled_name = script_output.stdout.strip()
+        print(f"DOCKER_RIPPLED_NAME: {docker_rippled_name}")
+        return docker_rippled_name
     else:
-        print(f"start fail and check env!!")
+        print(f"Error starting service: {script_output.stderr}")
+        return None
 
 
 def stop_service(container_name="ripple"):
@@ -37,23 +41,38 @@ def stop_service(container_name="ripple"):
         print(f"Container '{container_name}' not found.")
 
 
-def get_account_id_and_master_seed():
-    cmd = "RIPPLED_CMD wallet_propose"
+def get_account_id_and_master_seed(DOCKER_RIPPLED_NAME):
+    cmd = f"docker exec -i {DOCKER_RIPPLED_NAME} rippled -a wallet_propose"
     try:
-        result = subprocess.check_output(cmd, shell=True, text=True)
-        output_json = json.loads(result)
+        print(f"debug: {cmd}")
+        # 休眠5秒，允许`rippled`容器完全启动和初始化。
+        time.sleep(5)
+
+        # 将`docker exec`命令的超时时间增加到30秒。
+        result = subprocess.check_output(cmd, shell=True, text=True, timeout=30)
+
+        # 从输出中提取JSON部分
+        json_start = result.find("{")
+        json_end = result.rfind("}")
+        json_str = result[json_start:json_end+1]
+
+        output_json = json.loads(json_str)
         account_id = output_json["result"]["account_id"]
         master_seed = output_json["result"]["master_seed"]
+        print(f"debug222: {account_id, master_seed}")
         return account_id, master_seed
+    except subprocess.TimeoutExpired as e:
+        print(f"执行命令时发生超时：{e}")
+        return None, None
     except subprocess.CalledProcessError as e:
-        print(f"Error executing command: {e}")
+        print(f"执行命令时出错：{e}")
         return None, None
     except KeyError as e:
-        print(f"Error parsing JSON output: {e}")
+        print(f"解析JSON输出时出错：{e}")
         return None, None
 
 
-def get_tx_blob_from_rippled_sign(master_seed, ckb_message_hash):
+def get_tx_blob_from_rippled_sign(master_seed, ckb_message_hash, DOCKER_RIPPLED_NAME):
     try:
         tx_json = {
             "TransactionType": "Payment",
@@ -68,9 +87,23 @@ def get_tx_blob_from_rippled_sign(master_seed, ckb_message_hash):
             "Fee": "10000"
         }
 
-        cmd = f'RIPPLED_CMD sign {master_seed} \'{json.dumps(tx_json)}\' offline'
-        result = subprocess.check_output(cmd, shell=True, text=True)
-        tx_blob = json.loads(result)["result"]["tx_json"]["tx_blob"]
+        cmd = f'docker exec -i {DOCKER_RIPPLED_NAME} rippled -a sign {master_seed} \'{json.dumps(tx_json)}\' offline'
+        print(f"debug: {cmd}")
+        # 休眠5秒，允许`rippled`容器完全启动和初始化。
+        time.sleep(5)
+
+        # 将`docker exec`命令的超时时间增加到30秒。
+        result = subprocess.check_output(cmd, shell=True, text=True, timeout=30)
+
+        # 查找JSON部分的开始和结束位置
+        json_start = result.find("{")
+        json_end = result.rfind("}")
+        json_str = result[json_start:json_end + 1]
+
+        # 尝试解析JSON部分
+        output_json = json.loads(json_str)
+        tx_blob = output_json["result"]["tx_blob"]
+        print(f"[debug]tx_blob: {tx_blob}")
         return tx_blob
     except subprocess.CalledProcessError as e:
         print(f"Error executing command: {e}")
@@ -78,3 +111,7 @@ def get_tx_blob_from_rippled_sign(master_seed, ckb_message_hash):
     except KeyError as e:
         print(f"Error parsing JSON output: {e}")
         return None
+    except Exception as e:
+        print(f"Error: {e}")
+        return None
+
