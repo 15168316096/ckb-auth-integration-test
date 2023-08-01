@@ -4,7 +4,7 @@ import subprocess
 from framework.utils import get_project_root, check_container_status, get_container_name_from_output, \
     stop_and_remove_container
 
-ckb_auth_path = f"cd {get_project_root()}/ckb-auth"
+ckb_auth_path = f"{get_project_root()}/ckb-auth"
 
 
 def start_service():
@@ -15,7 +15,8 @@ def start_service():
     else:
         print(f"start fail and check env!!")
 
-def stop_service(container_name = "ripple"):
+
+def stop_service(container_name="ripple"):
     cmd = "docker ps -a | grep " + container_name
     try:
         result = subprocess.check_output(cmd, shell=True, text=True)
@@ -77,6 +78,3 @@ def get_tx_blob_from_rippled_sign(master_seed, ckb_message_hash):
     except KeyError as e:
         print(f"Error parsing JSON output: {e}")
         return None
-
-
-
