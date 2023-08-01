@@ -67,3 +67,37 @@ def process_solana_output(output):
         signatures.append(signature)
 
     return message_value, public_keys, signatures
+
+
+def check_container_status(container_name):
+    cmd = f"docker ps -a | grep {container_name}"
+    try:
+        result = subprocess.check_output(cmd, shell=True, text=True)
+        if "Up" in result:
+            return True
+        else:
+            return False
+    except subprocess.CalledProcessError:
+        return False
+
+
+def get_container_name_from_output(output):
+    try:
+        container_info = output.strip().split()
+        container_name = container_info[-1]
+        return container_name
+    except Exception as e:
+        print(f"Error extracting container name: {e}")
+        return None
+
+
+def stop_and_remove_container(container_name):
+    try:
+        stop_cmd = f"docker stop {container_name}"
+        subprocess.run(stop_cmd, shell=True, text=True, check=True)
+        remove_cmd = f"docker rm {container_name}"
+        subprocess.run(remove_cmd, shell=True, text=True, check=True)
+        return True
+    except subprocess.CalledProcessError as e:
+        print(f"Error stopping or removing container: {e}")
+        return False
