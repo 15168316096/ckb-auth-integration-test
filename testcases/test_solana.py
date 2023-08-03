@@ -1,5 +1,3 @@
-import pytest
-
 from download import Solana
 from framework.helper.ckb_auth_cli import *
 from framework.helper.solana_cli import *
@@ -22,7 +20,6 @@ class TestSolana:
     def teardown_class(cls):
         clean("solana")
 
-    @pytest.mark.skip("ckb-auth-cli not support solana on ripple")
     def test_signMessage(self):
         self.message_value, self.public_keys, self.signatures = solana_signMessage(
             "/tmp/keypair.json", self.msgToSign, self.pubkey)
@@ -30,7 +27,6 @@ class TestSolana:
         assert self.public_keys[1] == self.pubkey
         assert self.signatures is not None
 
-    @pytest.mark.skip("ckb-auth-cli not support solana on ripple")
     def test_verifyMessage(self):
         self.message_value, self.public_keys, self.signatures = solana_signMessage(
             "/tmp/keypair.json", self.msgToSign, self.pubkey)
