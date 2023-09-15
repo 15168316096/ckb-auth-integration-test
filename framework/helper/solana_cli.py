@@ -15,16 +15,17 @@ def solana_keygen():
     wolf north mesh crazy man soap voice once rapid athlete iron between
     ====================================================================
     """
-    cmd = f"{solana_path} && ./solana-keygen new --force --no-bip39-passphrase  -o /tmp/keypair.json"
+    cmd = f"{solana_path} && chmod +x solana-keygen && ./solana-keygen new --force --no-bip39-passphrase  -o /tmp/keypair.json"
     result = subprocess.run(cmd, shell=True, capture_output=True, text=True)
     # 提取pubkey的值
     pubkey = None
     lines = result.stdout.splitlines()
+    print(f"lines:{lines}")
     for line in lines:
         if "pubkey:" in line:
             pubkey = line.split(": ")[1]
             break
-
+    print(f"pubkey:{pubkey}")
     return pubkey
 
 
@@ -55,6 +56,8 @@ def solana_signMessage(keypair, blockhash, pubKey, payer=None):
     }
 
     """
+    command = f"{solana_path} && chmod +x solana"
+    subprocess.run(command, shell=True)
     if payer is not None:
         cmd = f"{solana_path} && ./solana transfer --from {keypair} --fee-payer {keypair} " \
               f"--blockhash {blockhash}{pubKey}" \

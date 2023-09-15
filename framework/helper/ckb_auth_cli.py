@@ -13,6 +13,7 @@ def get_pubKeyHashForSolana(pubKey):
     5592018a45281aa367730a7205a61b9588a59228
     """
     cmd = f"{ckb_auth_cli_path} solana parse -a {pubKey}"
+    print(f"pubkeyHash:{run_command(cmd)}")
     return run_command(cmd)
 
 
@@ -62,7 +63,7 @@ def verify_ripple_signature(ripple_address_id, tx_blob,
 
 def verify_bitcoin_signature(address, signMessage, message):
     try:
-        cmd = f"ckb-auth-cli bitcoin verify -a {address} -s {signMessage} -m {message}"
+        cmd = f"{ckb_auth_cli_path} bitcoin verify -a {address} -s {signMessage} -m {message}"
         result = subprocess.check_output(cmd, shell=True, text=True)
         return result.strip()
     except subprocess.CalledProcessError as e:
