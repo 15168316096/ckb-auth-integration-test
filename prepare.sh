@@ -5,10 +5,8 @@ cargo install cross --git https://github.com/cross-rs/cross
 cargo install ckb-capsule --git https://github.com/nervosnetwork/capsule.git --tag v0.9.2
 
 echo "download ckb-auth"
-git clone https://github.com/nervosnetwork/ckb-auth.git
-
+git clone -b bitcoin https://github.com/joii2020/ckb-auth
 cd ckb-auth
-git checkout main
 
 echo "build contract"
 git submodule update --init

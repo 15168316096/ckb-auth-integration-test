@@ -6,5 +6,5 @@ test:
 	cd testcases/ && python -m pytest -vv -s
 
 clean:
-	rm -rf ckb-auth
-	rm -rf report
+	sudo rm -rf ckb-auth
+	sudo rm -rf report

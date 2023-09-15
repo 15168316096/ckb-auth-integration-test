@@ -59,3 +59,12 @@ def verify_ripple_signature(ripple_address_id, tx_blob,
     except subprocess.CalledProcessError as e:
         print(f"Error executing command: {e}")
         return None
+
+def verify_bitcoin_signature(address, signMessage, message):
+    try:
+        cmd = f"ckb-auth-cli bitcoin verify -a {address} -s {signMessage} -m {message}"
+        result = subprocess.check_output(cmd, shell=True, text=True)
+        return result.strip()
+    except subprocess.CalledProcessError as e:
+        print(f"Error executing command: {e}")  
+        return None  
