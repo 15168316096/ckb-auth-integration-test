@@ -103,7 +103,6 @@ def stop_and_remove_container(container_name):
         return False
 
 
-
 def generateBytes(num=32):
     # 生成32个随机字节
     random_bytes = secrets.token_bytes(num)
