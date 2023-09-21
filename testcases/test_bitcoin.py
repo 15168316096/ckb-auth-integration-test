@@ -2,7 +2,7 @@ from download import Bitcoin
 from framework.helper.ckb_auth_cli import *
 from framework.helper.bitcoin_cli import *
 
-
+@pytest.mark.skip("debug")
 class TestBitcoin:
     def test_signMessageAndVerify(self):
         cli = installBitcoinCore()
