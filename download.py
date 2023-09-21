@@ -117,9 +117,16 @@ class Bitcoin(Blockchain):
 
     def start_bitcoind(self, tarball_abspath):
         command = f"cd {tarball_abspath}bin/ && ./bitcoind > bitcoin.log 2>&1 &"
-        time.sleep(5)
         print(f"command:{command}")
         subprocess.run(command, shell=True)
+
+    def check_bitcoind_running(self):
+        ps_command = "ps -ef | grep bitcoind | grep -v grep"
+        ps_output = subprocess.check_output(ps_command, shell=True).decode("utf-8")
+        if "./bitcoind" in ps_output:
+            return True
+        else:
+            return False    
 
     def get_bitcoin_cli(self, tarball_abspath):
         return f"{tarball_abspath}bin/"    

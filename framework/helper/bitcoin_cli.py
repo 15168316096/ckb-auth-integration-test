@@ -12,6 +12,18 @@ def installBitcoinCore():
     path = blockchain.install()
     blockchain.chmodCli(path)
     blockchain.start_bitcoind(path)
+    max_wait_time = 300  # 最大等待时间，单位秒
+    start_time = time.time()
+    while not blockchain.check_bitcoind_running():
+        if time.time() - start_time > max_wait_time:
+            print("wait timeout, bitcoind server not run")
+            break
+        time.sleep(5)
+
+    if blockchain.check_bitcoind_running():
+        print("bitcoind server running")
+    else:
+        print("wait timeout, bitcoind server not ru")
     blockchain.print_help(path)
     bitcoin_cli = blockchain.get_bitcoin_cli(path)
     return bitcoin_cli
