@@ -6,7 +6,7 @@ from framework.helper.bitcoin_cli import *
 class TestBitcoin:
     def test_signMessageAndVerify(self):
         cli = installBitcoinCore()
-        address, walletName = createWalletAndAddress(cli, "Test2")
+        address, walletName = createWalletAndAddress(cli, generate_random_string(5))
         print(f"address: {address}, walletName: {walletName}")
         signMessage, message = generateSignature(cli, address, walletName)
         print(f"signMessage:{signMessage}")

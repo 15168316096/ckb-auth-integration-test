@@ -1,4 +1,5 @@
 import os
+import time
 import platform
 import subprocess
 from framework.utils import get_project_root
@@ -116,7 +117,8 @@ class Bitcoin(Blockchain):
 
     def start_bitcoind(self, tarball_abspath):
         command = f"cd {tarball_abspath}bin/ && ./bitcoind > bitcoin.log 2>&1 &"
-        print("command:{command}")
+        time.sleep(5)
+        print(f"command:{command}")
         subprocess.run(command, shell=True)
 
     def get_bitcoin_cli(self, tarball_abspath):
