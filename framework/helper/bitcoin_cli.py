@@ -23,7 +23,7 @@ def installBitcoinCore():
     if blockchain.check_bitcoind_running():
         print("bitcoind server running")
     else:
-        print("wait timeout, bitcoind server not ru")
+        print("wait timeout, bitcoind server not run")
     blockchain.print_help(path)
     bitcoin_cli = blockchain.get_bitcoin_cli(path)
     return bitcoin_cli

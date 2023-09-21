@@ -45,6 +45,9 @@ class Blockchain:
         self.extract_tarball(tarball)
         print(f"chain:{self.name}")
         print(f"{get_project_root()}/{tarball.split('-')[0]}-{tarball.split('-')[1]}/")
+        if self.name == "bitcoin":
+            command = f"sed -i.bak 's/^#networkactive=1/networkactive=0/' {get_project_root()}/bitcoin-25.0/bitcoin.conf"
+            subprocess.run(command, shell=True)
         return f"{get_project_root()}/{tarball.split('-')[0]}-{tarball.split('-')[1]}/"
         # if f"{self.name}".find("monero") != -1:
         #     self.copy_files_to_path(f"{self.name}-*", "/usr/local/bin/")
