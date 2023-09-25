@@ -119,7 +119,7 @@ class Bitcoin(Blockchain):
         print(f"use bitcoind by abspath:{tarball_abspath}")
 
     def start_bitcoind(self, tarball_abspath):
-        command = f"cd {tarball_abspath}bin/ &&  ./bitcoind -regtest > bitcoin.log 2>&1 &"
+        command = f"cd {tarball_abspath}bin/ &&  ./bitcoind -chain=regtest -daemonwait"
         print(f"command:{command}")
         subprocess.run(command, shell=True)
 

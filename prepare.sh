@@ -1,8 +1,8 @@
 set -e
 echo "get capsule "
 rustup update
-cargo install cross --git https://github.com/cross-rs/cross
-cargo install ckb-capsule --git https://github.com/nervosnetwork/capsule.git --tag v0.9.2
+cargo install cross --git https://github.com/cross-rs/cross --force
+cargo install ckb-capsule --git https://github.com/nervosnetwork/capsule.git --tag v0.9.2 --force
 
 echo "download ckb-auth"
 git clone https://github.com/joii2020/ckb-auth.git

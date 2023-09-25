@@ -9,8 +9,9 @@ ckb_auth_path = f"{get_project_root()}/ckb-auth"
 
 def installBitcoinCore():
     blockchain = Bitcoin()
-    path = blockchain.install()
-    blockchain.chmodCli(path)
+    # path = blockchain.install()
+    # blockchain.chmodCli(path)
+    path = "/workspaces/ckb-auth-integration-test/bitcoin-25.0/"
     blockchain.start_bitcoind(path)
     max_wait_time = 300  # 最大等待时间，单位秒
     start_time = time.time()
@@ -29,9 +30,10 @@ def installBitcoinCore():
     return bitcoin_cli
 
 def createWalletAndAddress(bitcoin_cli, walletName="Test"):
-    create_wallet_command = f"./bitcoin-cli createwallet {walletName}"
-    get_newaddress_command = "./bitcoin-cli getnewaddress label1 legacy"
-
+    create_wallet_command = f"./bitcoin-cli  -chain=regtest createwallet {walletName}"
+    get_newaddress_command = "./bitcoin-cli -chain=regtest getnewaddress label1 legacy"
+    print(f"wallet:{create_wallet_command}")
+    print(f"address:{get_newaddress_command}")
     # 创建钱包
     subprocess.run(f"cd {bitcoin_cli} && {create_wallet_command}", shell=True)
 
@@ -45,7 +47,7 @@ def createWalletAndAddress(bitcoin_cli, walletName="Test"):
 def generateSignature(bitcoin_cli, address, walletName):
     message = generateBytes()
     print(f"message:{message}")
-    signMessage =f"./bitcoin-cli -rpcwallet={walletName} signmessage {address} {message}"
+    signMessage =f"./bitcoin-cli -chain=regtest -rpcwallet={walletName} signmessage {address} {message} "
     result = subprocess.run(f"cd {bitcoin_cli} && {signMessage}", shell=True, stdout=subprocess.PIPE, text=True)
     output = result.stdout.strip()
     print(f"sign message: {output}")
