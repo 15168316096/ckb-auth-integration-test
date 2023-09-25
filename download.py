@@ -119,7 +119,7 @@ class Bitcoin(Blockchain):
         print(f"use bitcoind by abspath:{tarball_abspath}")
 
     def start_bitcoind(self, tarball_abspath):
-        command = f"cd {tarball_abspath}bin/ && ./bitcoind > bitcoin.log 2>&1 &"
+        command = f"cd {tarball_abspath}bin/ &&  ./bitcoind -regtest > bitcoin.log 2>&1 &"
         print(f"command:{command}")
         subprocess.run(command, shell=True)
 
@@ -132,4 +132,8 @@ class Bitcoin(Blockchain):
             return False    
 
     def get_bitcoin_cli(self, tarball_abspath):
-        return f"{tarball_abspath}bin/"    
+        return f"{tarball_abspath}bin/"   
+
+    def stop_bitcoind(self):
+         command = "pkill bitcoind"
+         subprocess.run(command, shell=True)

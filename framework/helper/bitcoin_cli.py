@@ -51,5 +51,8 @@ def generateSignature(bitcoin_cli, address, walletName):
     print(f"sign message: {output}")
     return output, message
     
+def stopBitcoind():
+     blockchain = Bitcoin()
+     blockchain.stop_bitcoind()   
     
 
