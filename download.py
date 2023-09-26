@@ -121,12 +121,19 @@ class Bitcoin(Blockchain):
     def start_bitcoind(self, tarball_abspath):
         command = f"cd {tarball_abspath}bin/ &&  ./bitcoind -chain=regtest -daemonwait"
         print(f"command:{command}")
+        max_wait_time = 300
+        start_time = time.time()
         while True:
             output = subprocess.check_output(command, shell=True).decode("utf-8")
             if "Bitcoin Core starting" in output:
                 print("bitcoin node is running")
                 break
-            else: time.sleep(10)
+            elif time.time() - start_time > max_wait_time:
+                print("Timeout: Bitcoin Core RPC server did not become available.")
+                break
+            else: 
+                print("bitcoin node is not running")
+                time.sleep(10)
 
     def check_bitcoind_running(self):
         ps_command = "ps -ef | grep bitcoind | grep -v grep"
