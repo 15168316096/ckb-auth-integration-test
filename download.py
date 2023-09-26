@@ -121,7 +121,12 @@ class Bitcoin(Blockchain):
     def start_bitcoind(self, tarball_abspath):
         command = f"cd {tarball_abspath}bin/ &&  ./bitcoind -chain=regtest -daemonwait"
         print(f"command:{command}")
-        subprocess.run(command, shell=True)
+        while True:
+            output = subprocess.check_output(command, shell=True).decode("utf-8")
+            if "Bitcoin Core starting" in output:
+                print("bitcoin node is running")
+                break
+            else: time.sleep(10)
 
     def check_bitcoind_running(self):
         ps_command = "ps -ef | grep bitcoind | grep -v grep"
