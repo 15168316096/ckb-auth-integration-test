@@ -1,6 +1,6 @@
 from framework.utils import *
 
-solana_path = f"cd {get_project_root()}/testcases/solana-release/bin"
+solana_path = f"cd {get_project_root()}/solana-release/bin"
 
 
 def solana_keygen():
@@ -17,6 +17,7 @@ def solana_keygen():
     """
     cmd = f"{solana_path} && chmod +x solana-keygen && ./solana-keygen new --force --no-bip39-passphrase  -o /tmp/keypair.json"
     result = subprocess.run(cmd, shell=True, capture_output=True, text=True)
+    print(f"res:{result}")
     # 提取pubkey的值
     pubkey = None
     lines = result.stdout.splitlines()

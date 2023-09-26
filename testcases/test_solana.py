@@ -3,7 +3,7 @@ from framework.helper.ckb_auth_cli import *
 from framework.helper.solana_cli import *
 import pytest
 
-@pytest.mark.skip("debug")
+
 class TestSolana:
     pubkey = solana_keygen()
 

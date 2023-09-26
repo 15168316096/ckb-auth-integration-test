@@ -63,10 +63,20 @@ def verify_ripple_signature(ripple_address_id, tx_blob,
 
       
 def verify_bitcoin_signature(address, signMessage, message):
-    try:
-        cmd = f"{ckb_auth_cli_path} bitcoin verify -a {address} -s {signMessage} -m {message}"
-        result = subprocess.check_output(cmd, shell=True, text=True)
-        return result.strip()
-    except subprocess.CalledProcessError as e:
-        print(f"Error executing command: {e}")  
-        return None
+    
+    cmd = f"{ckb_auth_cli_path} bitcoin verify -a {address} -s {signMessage} -m {message}"
+    return run_command(cmd)
+
+def sign_message_eth(eth_password_file, eth_privkey_file):
+    message="0011223344556677889900112233445500112233445566778899001122334455"
+    message_file=f"{get_project_root()}/message_file.bin"
+    command = f"{ckb_auth_cli_path} ethereum generate -m {message} --msgfile {message_file}"
+    run_command(command)
+    cmd = f"ethkey signmessage --msgfile {message_file} --passwordfile {eth_password_file} {eth_privkey_file}"
+    result = subprocess.check_output(cmd, shell=True, text=True)
+    return result.strip().split("Signature: ")[1]
+
+def verify_message_eth_by_ckbauth(eth_address, eth_signature, message="0011223344556677889900112233445500112233445566778899001122334455"):
+    cmd = f"{ckb_auth_cli_path} ethereum verify -a {eth_address} -s {eth_signature} -m {message}"
+    result = subprocess.check_output(cmd, shell=True, text=True)
+    return result.strip()
