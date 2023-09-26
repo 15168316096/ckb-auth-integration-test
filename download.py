@@ -125,6 +125,7 @@ class Bitcoin(Blockchain):
         start_time = time.time()
         while True:
             output = subprocess.check_output(command, shell=True).decode("utf-8")
+            time.sleep(10)
             if "Bitcoin Core starting" in output:
                 print("bitcoin node is running")
                 break
