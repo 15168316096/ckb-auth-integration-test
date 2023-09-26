@@ -4,8 +4,8 @@ from framework.utils import *
 ckb_auth_path = f"{get_project_root()}/ckb-auth"
 
 def install_ethereum():
-    # command = f"cd {get_project_root()} && git clone https://github.com/ethereum/go-ethereum.git && cd go-ethereum && make all"
-    # subprocess.run(f"{command}", shell=True)
+    command = f"cd {get_project_root()} && git clone https://github.com/ethereum/go-ethereum.git && cd go-ethereum && make all"
+    subprocess.run(f"{command}", shell=True)
     command = f"cd {get_project_root()}/go-ethereum/build/bin/ && sudo cp -rf ethkey geth /usr/local/bin/"
     print(f"env:{command}")
     subprocess.run(f"{command}", shell=True)
