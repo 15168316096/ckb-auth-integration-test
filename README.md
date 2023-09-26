@@ -3,7 +3,7 @@
 ## Goals
 
 The goal of this project is to support ckb-auth compatibility with various blockchain networks. The tests ensure that ckb-auth functions as expected across different chains.
-Inculde solana, Eth, Bitcoin, Ripple...
+Include solana, Eth, Bitcoin, Ripple...
 
 
 ## Jobs
