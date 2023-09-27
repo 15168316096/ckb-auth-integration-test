@@ -1,6 +1,7 @@
 from download import Solana
 from framework.helper.ckb_auth_cli import *
 from framework.helper.solana_cli import *
+import pytest
 
 
 class TestSolana:

@@ -3,7 +3,9 @@ import os
 import re
 import subprocess
 import time
-
+import secrets
+import string
+import random
 
 def get_project_root():
     current_path = os.path.dirname(os.path.abspath(__file__))
@@ -101,3 +103,16 @@ def stop_and_remove_container(container_name):
     except subprocess.CalledProcessError as e:
         print(f"Error stopping or removing container: {e}")
         return False
+
+
+def generateBytes(num=32):
+    # 生成32个随机字节
+    random_bytes = secrets.token_bytes(num)
+    # 将随机字节转换为十六进制表示
+    message = random_bytes.hex()
+    print(message)
+    return message
+
+def generate_random_string(length):
+    characters = string.ascii_letters + string.digits
+    return ''.join(random.choice(characters) for _ in range(length))

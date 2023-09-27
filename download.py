@@ -1,6 +1,8 @@
 import os
+import time
 import platform
 import subprocess
+from framework.utils import get_project_root
 
 os_type = platform.system()
 
@@ -17,7 +19,8 @@ class Blockchain:
 
     @staticmethod
     def extract_tarball(tarball):
-        subprocess.run(["tar", "xvf", tarball])
+        subprocess.run(["tar", "xvf", tarball, "-C", f"{get_project_root()}"])
+        subprocess.run(["rm", tarball])
 
     @staticmethod
     def copy_files_to_path(src_dir, dest_path):
@@ -41,6 +44,11 @@ class Blockchain:
         tarball = self.download_tarball(tarball_url)
         self.extract_tarball(tarball)
         print(f"chain:{self.name}")
+        print(f"{get_project_root()}/{tarball.split('-')[0]}-{tarball.split('-')[1]}/")
+        if self.name == "bitcoin":
+            command = f"sed -i.bak 's/^#networkactive=1/networkactive=0/' {get_project_root()}/bitcoin-25.0/bitcoin.conf"
+            subprocess.run(command, shell=True)
+        return f"{get_project_root()}/{tarball.split('-')[0]}-{tarball.split('-')[1]}/"
         # if f"{self.name}".find("monero") != -1:
         #     self.copy_files_to_path(f"{self.name}-*", "/usr/local/bin/")
         # else:
@@ -95,3 +103,50 @@ class Litecoin(Blockchain):
     def print_help(self):
         print("use litecoin-cli by abspath")
         # subprocess.run(["litecoin-cli", "--help"])
+
+class Bitcoin(Blockchain):
+    def __init__(self):
+        super().__init__("bitcoin")
+
+    def get_linux_tarball_url(self):
+        return "https://bitcoincore.org/bin/bitcoin-core-25.0/bitcoin-25.0-x86_64-linux-gnu.tar.gz"
+
+    def chmodCli(self, tarball_abspath):
+        command = f"cd {tarball_abspath}bin/ && chmod +x bitcoin-cli && chmod +x bitcoind"
+        subprocess.run(command, shell=True)
+
+    def print_help(self, tarball_abspath):
+        print(f"use bitcoind by abspath:{tarball_abspath}")
+
+    def start_bitcoind(self, tarball_abspath):
+        command = f"cd {tarball_abspath}bin/ &&  ./bitcoind -chain=regtest -daemonwait"
+        print(f"command:{command}")
+        max_wait_time = 300
+        start_time = time.time()
+        while True:
+            output = subprocess.check_output(command, shell=True).decode("utf-8")
+            time.sleep(10)
+            if "Bitcoin Core starting" in output:
+                print("bitcoin node is running")
+                break
+            elif time.time() - start_time > max_wait_time:
+                print("Timeout: Bitcoin Core RPC server did not become available.")
+                break
+            else: 
+                print("bitcoin node is not running")
+                time.sleep(10)
+
+    def check_bitcoind_running(self):
+        ps_command = "ps -ef | grep bitcoind | grep -v grep"
+        ps_output = subprocess.check_output(ps_command, shell=True).decode("utf-8")
+        if "./bitcoind" in ps_output:
+            return True
+        else:
+            return False    
+
+    def get_bitcoin_cli(self, tarball_abspath):
+        return f"{tarball_abspath}bin/"   
+
+    def stop_bitcoind(self):
+         command = "pkill bitcoind"
+         subprocess.run(command, shell=True)

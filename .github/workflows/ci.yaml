@@ -25,11 +25,24 @@ jobs:
         python -m pip install --upgrade pip
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
+    - name: Cache of Cargo
+      uses: actions/cache@v3
+      with:
+        path: |
+          ~/.cargo/bin/
+          ~/.cargo/registry/index/
+          ~/.cargo/registry/cache/
+          ~/.cargo/git/db/
+          target/
+        key: ${{ matrix.os }}-${{ runner.os }}-${{ runner.arch }}-cargo-build-${{ hashFiles('**/Cargo.lock') }}
+        restore-keys: |
+          ${{ matrix.os }}-${{ runner.os }}-${{ runner.arch }}-cargo-build
+
     - name: Install ckb-auth-cli
       run: make prepare
 
     - name: Run tests
-      run: make test
+      run: make testAll
 
     - name: Publish reports
       if: failure()
