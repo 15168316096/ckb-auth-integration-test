@@ -11,7 +11,6 @@ def installBitcoinCore():
     blockchain = Bitcoin()
     path = blockchain.install()
     blockchain.chmodCli(path)
-    path = "/workspaces/ckb-auth-integration-test/bitcoin-25.0/"
     blockchain.start_bitcoind(path)
     # max_wait_time = 300  # 最大等待时间，单位秒
     # start_time = time.time()
