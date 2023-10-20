@@ -43,6 +43,3 @@ def validate_signatures(signatures, chain_id="00112233445566778899aabbccddeeff00
     cmd = re.sub(pattern, lambda x: x.group().replace('"', '\\"'), cmd)
     result = subprocess.check_output(cmd, shell=True, text=True)
     return result.strip().split('\n')
-
-def escape_quotes(input_string):
-    return input_string.replace('"', '\\"')
