@@ -80,3 +80,10 @@ def verify_message_eth_by_ckbauth(eth_address, eth_signature, message="001122334
     cmd = f"{ckb_auth_cli_path} ethereum verify -a {eth_address} -s {eth_signature} -m {message}"
     result = subprocess.check_output(cmd, shell=True, text=True)
     return result.strip()
+
+def verify_eos_signature(pubkey, signature, chain_id="00112233445566778899aabbccddeeff00000000000000000000000000000000", 
+                         message="00112233445566778899aabbccddeeff00112233445566778899aabbccddeeff"):
+    cmd = f'{ckb_auth_cli_path} eos verify --pubkey {pubkey} --signature {signature[0]}  --chain_id {chain_id} --message {message}'
+    print("-----",cmd)
+    result = subprocess.check_output(cmd, shell=True, text=True)
+    return result
