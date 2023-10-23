@@ -13,9 +13,6 @@ jobs:
   Test:
 
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: latest
 
     steps:
     - uses: actions/checkout@v3
