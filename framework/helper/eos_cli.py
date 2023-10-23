@@ -4,6 +4,26 @@ from framework.utils import *
 
 ckb_auth_path = f"{get_project_root()}/ckb-auth"
 
+def install_eos():
+    download_install_cmd = "wget https://github.com/EOSIO/eos/releases/download/v2.2.0-rc1/eosio_2.2.0-rc1-ubuntu-20.04_amd64.deb && \
+    sudo apt-get install ./eosio_2.2.0-rc1-ubuntu-20.04_amd64.deb"
+    subprocess.check_output(download_install_cmd, shell=True, text=True)
+    cmd = "which cleos"
+    result = subprocess.check_output(cmd, shell=True, text=True)
+    if "/usr/bin/cleos" in result:
+        print("install eos success")
+    else:
+        print("install fail, please check!!")
+
+def uninstall_eos():
+    uninstall_eos_cmd = "sudo apt remove eosio -y"
+    try:
+        subprocess.run(uninstall_eos_cmd, shell=True, check=True, text=True, stderr=subprocess.PIPE)
+    except subprocess.CalledProcessError as e:
+        print(f"Error: {e.returncode}")
+        print(f"Command output: {e.stdout}")
+        print(f"Command error: {e.stderr}")
+
 def acccount_new():
     cmd = "cleos create key --to-console"
     result = subprocess.check_output(cmd, shell=True, text=True)

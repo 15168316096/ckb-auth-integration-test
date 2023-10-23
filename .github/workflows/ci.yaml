@@ -38,11 +38,6 @@ jobs:
         restore-keys: |
           ${{ matrix.os }}-${{ runner.os }}-${{ runner.arch }}-cargo-build
 
-    - name: Install clieos
-      run: 
-        curl -LO https://github.com/EOSIO/eos/releases/download/v2.2.0-rc1/eosio_2.2.0-rc1-ubuntu-20.04_amd64.deb
-        sudo apt-get install ./eosio_2.2.0-rc1-ubuntu-20.04_amd64.deb
-
     - name: Install ckb-auth-cli
       run: make prepare
 
