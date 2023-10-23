@@ -17,8 +17,8 @@ def acccount_new():
             public_key = line.split("Public key: ")[1].strip()
     return public_key, private_key
 
-def sign_transaction(private_key, chain_id="0112233445566778899aabbccddeeff00000000000000000000000000000000",
-                      message="0112233445566778899aabbccddeeff00112233445566778899aabbccddeeff"):
+def sign_transaction(private_key, chain_id="00112233445566778899aabbccddeeff00000000000000000000000000000000",
+                      message="00112233445566778899aabbccddeeff00112233445566778899aabbccddeeff"):
     message = message.strip()
     if len(message) % 2 != 0:
         message = '0' + message
