@@ -40,12 +40,8 @@ jobs:
 
     - name: Install clieos
       run: 
-        mkdir eos/
-        cd eos/
         wget https://github.com/EOSIO/eos/releases/download/v2.2.0-rc1/eosio_2.2.0-rc1-ubuntu-20.04_amd64.deb
         sudo apt-get install ./eosio_2.2.0-rc1-ubuntu-20.04_amd64.deb
-        which cleos
-        cd ..
 
     - name: Install ckb-auth-cli
       run: make prepare
