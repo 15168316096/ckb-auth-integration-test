@@ -7,7 +7,7 @@ cargo install ckb-capsule --git https://github.com/nervosnetwork/capsule.git --t
 echo "download ckb-auth"
 git clone https://github.com/joii2020/ckb-auth.git
 cd ckb-auth
-git checkout eos
+git checkout tron
 
 echo "build contract"
 git submodule update --init

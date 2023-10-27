@@ -87,3 +87,9 @@ def verify_eos_signature(pubkey, signature, chain_id="00112233445566778899aabbcc
     print("-----",cmd)
     result = subprocess.check_output(cmd, shell=True, text=True)
     return result
+
+def verify_tron_signature(account, signature, message="00112233445566778899aabbccddeeff00112233445566778899aabbccddeeff"):
+    cmd = f'{ckb_auth_cli_path} tron verify -a {account} -s {signature} -m {message}'
+    result = subprocess.check_output(cmd, shell=True, text=True)
+    return result
+    
