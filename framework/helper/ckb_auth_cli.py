@@ -28,12 +28,12 @@ def get_messageForSolana(parseKey):
     return run_command(cmd)
 
 
-def verifyMsgForSolana(pubKey, signature, message):
+def verifyMsgForSolana(pubKey, signature, msgSigned, msgToSign):
     """
     xueyanli@xueyanlideMacBook-Pro debug % ./ckb-auth-cli solana verify -a 69RyGvuAaCnuKjDgWycQdzDNjz9u2z4JudogjzdG493Z -s 4SXv2jWSqc5d8eyuFndhJnuCSiWgiPMKmd5ypCZWEEpw6ThMZ2vpj3XxJtYr4E4Yjpq9Fy3AwXHkYQfYADzDPXeY -m AQABAkxzUKeyLsP/6vDpIvRUtGh2/aKIgtTuQjJGKzu3dNbcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAADg3K/wqsRwM/r1dEUL+Qt5J3ezzj4oTi1rNVml27EqCQEBAgAADAIAAAAAAAAAAAAAAA==
     Signature verification succeeded!
     """
-    cmd = f"{ckb_auth_cli_path} solana verify -a {pubKey} -s {signature} -m {message}"
+    cmd = f"{ckb_auth_cli_path} solana verify -a {pubKey} -s {signature} --solanamessage {msgSigned} -m {msgToSign}"
     return run_command(cmd)
 
 

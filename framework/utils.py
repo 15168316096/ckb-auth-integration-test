@@ -6,6 +6,8 @@ import time
 import secrets
 import string
 import random
+import base58
+from base64 import b64decode
 
 def get_project_root():
     current_path = os.path.dirname(os.path.abspath(__file__))
@@ -55,20 +57,26 @@ def clean(chain):
 def process_solana_output(output):
     data = json.loads(output)
 
-    # 获取message对应的值
-    message_value = data["message"]
+    try:
 
-    # 获取signers中的公钥和签名
-    signers = data["signers"]
-    public_keys = []
-    signatures = []
+        # 获取 signature 的值
+        signature = data["signers"][0].split("=")[1]
 
-    for signer in signers:
-        pubkey, signature = signer.split("=")
-        public_keys.append(pubkey)
-        signatures.append(signature)
+        # 获取 public_key 的值
+        public_key = data["signers"][0].split("=")[0]
 
-    return message_value, public_keys, signatures
+        # 获取 solanamessage 的值
+        solanamessage = data["message"]
+
+
+        return solanamessage,  public_key, signature
+    except json.JSONDecodeError as e:
+        print(f"Error decoding JSON: {e}")
+        return None
+    except KeyError as e:
+        print(f"KeyError: {e}")
+        return None
+
 
 
 def check_container_status(container_name):
@@ -116,3 +124,6 @@ def generateBytes(num=32):
 def generate_random_string(length):
     characters = string.ascii_letters + string.digits
     return ''.join(random.choice(characters) for _ in range(length))
+
+def base58_str(encode_str):
+    return base58.b58encode(bytes.fromhex(encode_str)).decode('utf-8')
