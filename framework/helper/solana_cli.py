@@ -55,19 +55,20 @@ def solana_signMessage(keypair, blockhash, pubKey, payer=None):
         "F63cExLuPMUPVVLMsTBDno3mjxhX9pKc8FVNox1rjmpv=5qeHoMm8kBCxbqkfcv8HfHCMsSfbvftVHLXxKjfmaPCo5jews56hFioNdnCtqu1b7ek1d7FwMzQ83oE4oh8yyZbt"
       ]
     }
-
+    solana transfer --fee-payer keypair.json --from keypair.json --blockhash G8mW5A2r4ab8gnmCB4abus21BN8vyMa3hbLg91AcsMon 6dN24Y1wBW66CxLfXbRT9umy1PMed8ZmfMWsghopczFg 0 --output json --verbose --dump-transaction-message --sign-only
     """
     command = f"{solana_path} && chmod +x solana"
     subprocess.run(command, shell=True)
-    if payer is not None:
-        cmd = f"{solana_path} && ./solana transfer --from {keypair} --fee-payer {keypair} " \
-              f"--blockhash {blockhash}{pubKey}" \
+    # if payer is not None:
+    cmd = f"{solana_path} && ./solana transfer --from {keypair} --fee-payer {keypair} " \
+              f"--blockhash {blockhash} {pubKey}" \
               f" 0 --output json --verbose --dump-transaction-message --sign-only "
-    else:
-        cmd = f"{solana_path} && ./solana-keygen new --force --no-bip39-passphrase"
-        subprocess.run(cmd, shell=True, capture_output=True, text=True)
-        cmd = f"{solana_path} && ./solana transfer --from {keypair} --blockhash {blockhash}{pubKey}" \
-              f" 0 --output json --verbose --dump-transaction-message --sign-only "
+    print("debug", cmd)          
+    # else:
+    #     cmd = f"{solana_path} && ./solana-keygen new --force --no-bip39-passphrase"
+    #     subprocess.run(cmd, shell=True, capture_output=True, text=True)
+    #     cmd = f"{solana_path} && ./solana transfer --from {keypair} --blockhash {blockhash}{pubKey}" \
+    #           f" 0 --output json --verbose --dump-transaction-message --sign-only "
     cmd = cmd.replace("\n", " ")
 
     # 运行cmd命令并获取输出结果
