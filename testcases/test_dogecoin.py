@@ -10,7 +10,7 @@ class TestDogecoin:
 
     @classmethod
     def teardown_class(cls):
-        stopDogecoind()   
+        stopDogecoind()
       
     def test_signMessageAndVerify(self):
         address = get_dogecoin_address(self.cli)
