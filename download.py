@@ -167,11 +167,9 @@ class Dogecoin(Blockchain):
         print(f"use dogecoind by abspath:{tarball_abspath}")
 
     def start_dogecoind(self, tarball_abspath):
-        command = f"cd {tarball_abspath}bin/ && ./dogecoind -regtest &"
+        command = f"cd {tarball_abspath}bin/ && ./dogecoind -daemonwait &"
         print(f"command: {command}")
         subprocess.run(command, shell=True)
-        generate_block = f"cd {tarball_abspath}bin/ && ./dogecoin-cli -regtest generate 10"
-        subprocess.run(generate_block, shell=True)
 
     def check_dogecoind_running(self):
         ps_command = "ps -ef | grep dogecoind | grep -v grep"
