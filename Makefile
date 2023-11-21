@@ -21,7 +21,10 @@ testTron:
 	cd testcases && pytest test_tron* -vv -s
 
 testRipple:
-	cd testcases && pytest test_ripple* -vv -s			
+	cd testcases && pytest test_ripple* -vv -s
+
+testDogeCoin:
+	cd testcases && pytest test_doge* -vv -s				
 
 clean:
 	sudo rm -rf ckb-auth
