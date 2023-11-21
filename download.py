@@ -1,4 +1,3 @@
-import asyncio
 import os
 import time
 import platform
@@ -167,19 +166,10 @@ class Dogecoin(Blockchain):
     def print_help(self, tarball_abspath):
         print(f"use dogecoind by abspath:{tarball_abspath}")
 
-    async def start_dogecoind(self, tarball_abspath):
+    def start_dogecoind(self, tarball_abspath):
         command = f"cd {tarball_abspath}bin/ && ./dogecoind -daemonwait &"
         print(f"command: {command}")
-
-        # Create subprocess asynchronously
-        process = await asyncio.create_subprocess_shell(
-            command,
-            stdout=asyncio.subprocess.PIPE,
-            stderr=asyncio.subprocess.PIPE
-        )
-        stdout, stderr = await process.communicate()
-        print(f"stdout: {stdout.decode()}")
-        print(f"stderr: {stderr.decode()}")
+        subprocess.run(command, shell=True)
 
     def check_dogecoind_running(self):
         ps_command = "ps -ef | grep dogecoind | grep -v grep"
