@@ -167,7 +167,7 @@ class Dogecoin(Blockchain):
         print(f"use dogecoind by abspath:{tarball_abspath}")
 
     def start_dogecoind(self, tarball_abspath):
-        command = f"cd {tarball_abspath}bin/ && ./dogecoind -checkblocks=1 &"
+        command = f"cd {tarball_abspath}bin/ && ./dogecoind -dev -checkblocks=1 &"
         print(f"command: {command}")
         subprocess.run(command, shell=True)
 
