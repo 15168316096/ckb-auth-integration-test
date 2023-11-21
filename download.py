@@ -167,22 +167,9 @@ class Dogecoin(Blockchain):
         print(f"use dogecoind by abspath:{tarball_abspath}")
 
     def start_dogecoind(self, tarball_abspath):
-        command = f"cd {tarball_abspath}bin/ &&  ./dogecoind -chain=regtest -daemonwait"
+        command = f"cd {tarball_abspath}bin/ &&  ./dogecoind -daemonwait &"
         print(f"command:{command}")
-        max_wait_time = 300
-        start_time = time.time()
-        while True:
-            output = subprocess.check_output(command, shell=True).decode("utf-8")
-            time.sleep(10)
-            if "Dogecoin Core starting" in output:
-                print("dogecoin node is running")
-                break
-            elif time.time() - start_time > max_wait_time:
-                print("Timeout: dogecoin Core RPC server did not become available.")
-                break
-            else: 
-                print("dogecoin node is not running")
-                time.sleep(10)
+        subprocess.run(command, shell=True)
 
     def check_dogecoind_running(self):
         ps_command = "ps -ef | grep dogecoind | grep -v grep"
@@ -193,6 +180,7 @@ class Dogecoin(Blockchain):
             return False    
 
     def get_dogecoin_cli(self, tarball_abspath):
+        print("++++")
         return f"{tarball_abspath}bin/"   
 
     def stop_dogecoind(self):
