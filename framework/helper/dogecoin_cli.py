@@ -30,6 +30,7 @@ def get_dogecoin_address(dogecoin_cli):
         print(f"cmd:{cmd}")
         result = subprocess.run(cmd, shell=True, capture_output=True, text=True, check=True)
         addresses = result.stdout.strip().replace('[', '').replace(']', '').replace('"', '').split(', ')
+        print(f"address:{addresses[0]}")
         return addresses[0]
     except subprocess.CalledProcessError as e:
         print(f"Error: {e.returncode}")
@@ -39,7 +40,7 @@ def get_dogecoin_address(dogecoin_cli):
 def generateSignature(dogecoin_cli, address):
     message = generateBytes()
     print(f"message:{message}")
-    signMessage = f"./dogecoin-cli signmessage {address} {message}"
+    signMessage = f"cd {dogecoin_cli} && ./dogecoin-cli signmessage {address} {message}"
     result = subprocess.run(f"cd {dogecoin_cli} && {signMessage}", shell=True, stdout=subprocess.PIPE, text=True)
     output = result.stdout.strip()
     print(f"sign message: {output}")
