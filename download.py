@@ -180,7 +180,6 @@ class Dogecoin(Blockchain):
             return False    
 
     def get_dogecoin_cli(self, tarball_abspath):
-        print("++++")
         return f"{tarball_abspath}bin/"   
 
     def stop_dogecoind(self):

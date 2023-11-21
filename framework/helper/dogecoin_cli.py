@@ -13,9 +13,15 @@ def installDogecoinCore():
     path = blockchain.install()
     blockchain.chmodCli(path)
     blockchain.start_dogecoind(path)
-    blockchain.print_help(path)
-    dogecoin_cli = blockchain.get_dogecoin_cli(path)
-    return dogecoin_cli
+    try:
+        if blockchain.check_dogecoind_running():
+            blockchain.print_help(path)
+            dogecoin_cli = blockchain.get_dogecoin_cli(path)
+            return dogecoin_cli
+        else:print("start dogecoin Core failed")
+    except Exception as e:
+        print(e.output)
+
 
 
 def get_dogecoin_address(dogecoin_cli):
