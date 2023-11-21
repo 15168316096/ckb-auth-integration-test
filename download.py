@@ -169,7 +169,7 @@ class Dogecoin(Blockchain):
     def start_dogecoind(self, tarball_abspath):
         command = f"cd {tarball_abspath}bin/ &&  ./dogecoind -daemonwait &"
         print(f"command: {command}")
-        subprocess.Popen(command, shell=True)
+        subprocess.run(command, shell=True)
 
     def check_dogecoind_running(self):
         ps_command = "ps -ef | grep dogecoind | grep -v grep"

@@ -26,9 +26,11 @@ def installDogecoinCore():
 
 def get_dogecoin_address(dogecoin_cli):
     try:
-        cmd = f'cd {dogecoin_cli} && ./dogecoind -daemonwait & && ./dogecoin-cli getaddressesbyaccount ""'
-        print(f"cmd:{cmd}")
-        result = subprocess.run(cmd, shell=True, capture_output=True, text=True, check=True)
+        cmd1 = f'cd {dogecoin_cli} && ./dogecoind -daemonwait & '
+        cmd2 = f'./dogecoin-cli getaddressesbyaccount ""'
+        print(f"cmd1:{cmd1},cmd2:{cmd2}")
+        subprocess.run(cmd1, shell=True)
+        result = subprocess.run(cmd2, shell=True, capture_output=True, text=True, check=True)
         addresses = result.stdout.strip().replace('[', '').replace(']', '').replace('"', '').split(', ')
         return addresses[0]
     except subprocess.CalledProcessError as e:
