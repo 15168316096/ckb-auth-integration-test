@@ -31,6 +31,7 @@ def get_dogecoin_address(dogecoin_cli):
         # result = subprocess.run(cmd, shell=True, capture_output=True, text=True, check=True)
         # addresses = result.stdout.strip().replace('[', '').replace(']', '').replace('"', '').split(', ')
         # return addresses[0]
+
         return "DDjoXsNFMo8iu59mkKF45ddcFoECUehovB"
     except subprocess.CalledProcessError as e:
         print(f"Error: {e.returncode}")
