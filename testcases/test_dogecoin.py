@@ -18,7 +18,7 @@ class TestDogecoin:
         signMessage, message = generateSignature(self.cli, address)
         print(f"signMessage:{signMessage}")
         assert signMessage is not None
-        result = verify_bitcoin_signature(address, signMessage, message)
+        result = verify_dogecoin_signature(address, signMessage, message)
         assert "Signature verification succeeded!" in result  
 
     
