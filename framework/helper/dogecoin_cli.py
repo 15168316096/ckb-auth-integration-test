@@ -27,7 +27,7 @@ def installDogecoinCore():
 def get_dogecoin_address(dogecoin_cli):
     try:
         cmd1 = f'cd {dogecoin_cli} && ./dogecoind -daemonwait & '
-        cmd2 = f'./dogecoin-cli getaddressesbyaccount ""'
+        cmd2 = f'cd {dogecoin_cli} && ./dogecoin-cli getaddressesbyaccount ""'
         print(f"cmd1:{cmd1},cmd2:{cmd2}")
         subprocess.run(cmd1, shell=True)
         result = subprocess.run(cmd2, shell=True, capture_output=True, text=True, check=True)
