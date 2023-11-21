@@ -93,3 +93,7 @@ def verify_tron_signature(account, signature, message="00112233445566778899aabbc
     result = subprocess.check_output(cmd, shell=True, text=True)
     return result
     
+def verify_dogecoin_signature(address, signMessage, message):
+    
+    cmd = f"{ckb_auth_cli_path} bitcoin verify -a {address} -s {signMessage} -m {message}"
+    return run_command(cmd)

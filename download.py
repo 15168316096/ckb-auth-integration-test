@@ -150,3 +150,51 @@ class Bitcoin(Blockchain):
     def stop_bitcoind(self):
          command = "pkill bitcoind"
          subprocess.run(command, shell=True)
+
+
+class Dogecoin(Blockchain):
+    def __init__(self):
+        super().__init__("dogecoin")
+
+    def get_linux_tarball_url(self):
+        return "https://github.com/dogecoin/dogecoin/releases/download/v1.14.6/dogecoin-1.14.6-x86_64-linux-gnu.tar.gz"
+
+    def chmodCli(self, tarball_abspath):
+        command = f"cd {tarball_abspath}bin/ && chmod +x dogecoin-cli && chmod +x dogecoind"
+        subprocess.run(command, shell=True)
+
+    def print_help(self, tarball_abspath):
+        print(f"use dogecoind by abspath:{tarball_abspath}")
+
+    def start_dogecoind(self, tarball_abspath):
+        command = f"cd {tarball_abspath}bin/ &&  ./dogecoind -chain=regtest -daemonwait"
+        print(f"command:{command}")
+        max_wait_time = 300
+        start_time = time.time()
+        while True:
+            output = subprocess.check_output(command, shell=True).decode("utf-8")
+            time.sleep(10)
+            if "Dogecoin Core starting" in output:
+                print("dogecoin node is running")
+                break
+            elif time.time() - start_time > max_wait_time:
+                print("Timeout: dogecoin Core RPC server did not become available.")
+                break
+            else: 
+                print("dogecoin node is not running")
+                time.sleep(10)
+
+    def check_dogecoind_running(self):
+        ps_command = "ps -ef | grep dogecoind | grep -v grep"
+        ps_output = subprocess.check_output(ps_command, shell=True).decode("utf-8")
+        if "./dogecoind" in ps_output:
+            return True
+        else:
+            return False    
+
+    def get_dogecoin_cli(self, tarball_abspath):
+        return f"{tarball_abspath}bin/"   
+
+    def stop_dogecoind(self):
+         command = "pkill dogecoind"
+         subprocess.run(command, shell=True)         
