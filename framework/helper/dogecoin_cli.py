@@ -20,17 +20,15 @@ def installDogecoinCore():
             return dogecoin_cli
         else:print("start dogecoin Core failed")
     except Exception as e:
-        print(e.output)
+        print(e)
 
 
 
 def get_dogecoin_address(dogecoin_cli):
     try:
-        cmd1 = f'cd {dogecoin_cli} && sudo ./dogecoind -daemonwait & '
-        cmd2 = f'cd {dogecoin_cli} && ./dogecoin-cli getaddressesbyaccount ""'
-        print(f"cmd1:{cmd1},cmd2:{cmd2}")
-        subprocess.run(cmd1, shell=True)
-        result = subprocess.run(cmd2, shell=True, capture_output=True, text=True, check=True)
+        cmd = f'cd {dogecoin_cli} && ./dogecoin-cli getaddressesbyaccount ""'
+        print(f"cmd:{cmd}")
+        result = subprocess.run(cmd, shell=True, capture_output=True, text=True, check=True)
         addresses = result.stdout.strip().replace('[', '').replace(']', '').replace('"', '').split(', ')
         return addresses[0]
     except subprocess.CalledProcessError as e:
