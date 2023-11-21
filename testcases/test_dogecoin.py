@@ -1,7 +1,5 @@
-from download import Dogecoin
 from framework.helper.ckb_auth_cli import *
 from framework.helper.dogecoin_cli import *
-import pytest
 
 class TestDogecoin:
     @classmethod
