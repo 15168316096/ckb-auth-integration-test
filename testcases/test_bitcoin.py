@@ -1,10 +1,7 @@
-from download import Bitcoin
 from framework.helper.ckb_auth_cli import *
 from framework.helper.bitcoin_cli import *
-import pytest
 
 
-# @pytest.mark.skip("debug")
 class TestBitcoin:
     @classmethod
     def setup_class(cls):
@@ -30,7 +27,7 @@ class TestBitcoin:
         verify_cases = [
             {
                 "address": "bc1ql9ju4rwv20k4ly7yxzev4und09wwexn9wspeta",
-                "signature": "HClKAE+iHiZMJN9WgJCSwT88JslZ0CsU2dbongWqSzVpFRfGTV7uy36gTn82PIvNmFpguAYtRFuBY87CLbNghX4=",
+                "signature": "HEarX4AQUIqrwcebW6ra7yEDOLSbOCPwcVH5QTmYlmgXWrA6FjLzGCM5ggiujM8Ce7gyon+MeW2LJdpWlpXKHEI=",
                 "message": "0011223344556677889900112233445500112233445566778899001122334455"
             },
             {
@@ -40,7 +37,7 @@ class TestBitcoin:
             },
             {
                 "address": "3HsqUZPg8BKi9q242W5fyFGGqzquPDBpWB",
-                "signature": "HAcDpCzFUF9+2WE3cUeNhX0HUCRQ3xf0p61gDZ4rjvYSePxF6zYlE5hfQob+PdClohJLV5JBwuTcjyIgOb4ZK+M=",
+                "signature": "HFhoFGzuZ/iB5EJ3KS/liI3CIdRtylR8Jvjo0LDtZbZrIuIOPkImcntE1TglmxPahYdxVofrKxopoP839Yo/Fng=",
                 "message": "0011223344556677889900112233445500112233445566778899001122334455"
             },
             {
