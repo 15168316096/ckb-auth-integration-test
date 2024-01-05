@@ -7,7 +7,6 @@ import secrets
 import string
 import random
 import base58
-from base64 import b64decode
 
 def get_project_root():
     current_path = os.path.dirname(os.path.abspath(__file__))
@@ -76,7 +75,6 @@ def process_solana_output(output):
     except KeyError as e:
         print(f"KeyError: {e}")
         return None
-
 
 
 def check_container_status(container_name):
