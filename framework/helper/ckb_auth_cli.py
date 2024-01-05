@@ -97,3 +97,7 @@ def verify_dogecoin_signature(address, signMessage, message):
     
     cmd = f"{ckb_auth_cli_path} dogecoin verify -a {address} -s {signMessage} -m {message}"
     return run_command(cmd)
+
+def verify_bitcoin_signature_byUnisat(address, signMessage, message):
+    cmd = f"{ckb_auth_cli_path} unisat verify -a {address} -s {signMessage} -m {message}"
+    return run_command(cmd)
